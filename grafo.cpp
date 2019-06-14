@@ -58,3 +58,8 @@ void Grafo::imprimeGrafo(){
         cout << endl;
     }
 }
+
+
+int* Grafo::listaDeAdjacencia(int coluna){
+    return arestas[coluna];
+}
