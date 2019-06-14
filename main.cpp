@@ -1,10 +1,15 @@
 #include <iostream>
-#include <string>
+
+#include "grafo.hpp"
+
 using namespace std;
 
 int main()
 {
-  cout << "Hello, Friends!";
+  Grafo grafo("teste.txt");
+
+  grafo.imprimeGrafo();
+  delete &grafo;
 
   return 0;
 }
