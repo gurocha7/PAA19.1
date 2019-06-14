@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+  cout << "Play no código";
   Grafo grafo("teste.txt");
 
   grafo.imprimeGrafo();
