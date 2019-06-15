@@ -6,7 +6,6 @@ using namespace std;
 
 int main()
 {
-  cout << "Alterações apenas na própria branch";
   Grafo grafo("teste.txt");
 
   grafo.imprimeGrafo();
