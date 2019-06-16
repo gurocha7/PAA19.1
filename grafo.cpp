@@ -92,7 +92,10 @@ int* Grafo::auxConjuntoIndependente(int* conjunto,int vertice){
                 cont--;
             }   
     }
-    if (cont == 0)                                         // todos os vizinhos não fizerem parte do conjunto independete
+    if (cont == 0)/** 
+                    * se for igual a zero ele contou o numero de vizinhos e os mesmos não fazem parte do conjunto independente, 
+                    * logo, todos os vizinhos não fazem parte do conjunto independete 
+                    */ 
         conjunto[vertice] = 1;                             // este vertice passa a fazer parte do conjunto independente
     
     return conjunto;
