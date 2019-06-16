@@ -39,8 +39,6 @@ void Grafo::leGrafo(string nomeDoArquivo){
 
     while(!arquivo.fail()){                                             // le a matriz de adjacencia
         arquivo >> arestas[contador/vertices][contador%vertices];      // le o inteiro
-        cout << "i: "<< contador/vertices<< " j: "<< contador%vertices << endl;
-
         contador++;
     }
 
@@ -63,3 +61,40 @@ void Grafo::imprimeGrafo(){
 int* Grafo::listaDeAdjacencia(int coluna){
     return arestas[coluna];
 }
+
+int* Grafo::conjuntoIndependete(){
+    int* conjunto = new int[vertices];
+    for (int i = 0; i < vertices; i++) conjunto[i]=0;     // assume valores iniciais igual a 0 para indicar que nenhum valor pertence ao conjunto independente;
+    
+
+    for(int i=0; i < vertices; i++){
+        conjunto = auxConjuntoIndependente(conjunto,i);             
+    }
+    for(int i=0; i< vertices; i++)
+        cout << conjunto[i] << "\t";
+    cout << endl;
+
+    return conjunto;
+}
+
+int* Grafo::auxConjuntoIndependente(int* conjunto,int vertice){
+    int* adjacencias = listaDeAdjacencia(vertice);        // recebe a lista de adjacencias do vertice
+
+    int cont = 0;                                         // vai contar o numero de vizinhos que fazem parte do conjunto independente    
+    for (int i = 0; i < vertices; i++) 
+        if (adjacencias[i] == 1)                          // conta o numero de vizinhos do vertice
+            cont ++;
+    
+
+    for (int i = 0; i < vertices; i++){                   // percorre a lista de adjacencia
+        if(adjacencias[i] == 1 && i != vertice)           // se for 1 e se não for ele mesmo, continua
+            if(conjunto[i] != 1){                         // se não fizer parte do conjunto independente, diminui o contador
+                cont--;
+            }   
+    }
+    if (cont == 0)                                         // todos os vizinhos não fizerem parte do conjunto independete
+        conjunto[vertice] = 1;                             // este vertice passa a fazer parte do conjunto independente
+    
+    return conjunto;
+}
+
