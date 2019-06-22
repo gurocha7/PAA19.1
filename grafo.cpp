@@ -1,7 +1,5 @@
 #include <iostream>
 #include "grafo.hpp"
-
-
 #include <fstream>
 
 
@@ -99,5 +97,26 @@ int* Grafo::auxConjuntoIndependente(int* conjunto,int vertice){
         conjunto[vertice] = 1;                             // este vertice passa a fazer parte do conjunto independente
     
     return conjunto;
+}
+
+int* Grafo::redution(int* conjunto){
+
+    int* array_aux = new int[vertices - conjunto.size()]; //constroi um vetor do com os vertices que nao estao no conjunto independente
+    int sizeRedution = vertices - conjunto.size();   //pega a quantidade de vertices que nao estao no conjunto independente
+
+    for (int j = 0; j < sizeRedution; ++j)
+    {
+        for (int i = 0; i < vertices; ++i)
+        {
+            if find(conjunto.begin(), conjunto.end(), i){
+                //anything
+            }else{
+                array_aux[j] = i;   // se nao encontrar o vertice no conjunto independete, adicionamos ele no vetor de redução.
+                j++;
+            }
+        }
+    }
+
+    return array_aux;
 }
 
