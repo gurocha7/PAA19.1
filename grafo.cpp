@@ -108,7 +108,7 @@ int* Grafo::redution(int* conjunto){
     {
         for (int i = 0; i < vertices; ++i)
         {
-            if find(conjunto.begin(), conjunto.end(), i){
+            if (find(conjunto.begin(), conjunto.end(), i)){
                 //anything
             }else{
                 array_aux[j] = i;   // se nao encontrar o vertice no conjunto independete, adicionamos ele no vetor de redução.
@@ -120,3 +120,25 @@ int* Grafo::redution(int* conjunto){
     return array_aux;
 }
 
+void Grafo::clique(int* array_aux){
+
+    string clique = "";
+    int i = 0;
+
+    for (int j = 0; j < vertices; ++j)
+    {
+
+        while (arestas[array_aux[i]][j] == 1) { //se o vertice possui arestas para todos os outros vertices que nao sao cdo conjunto independente
+            i++;
+        } 
+
+        if (i == array_aux.size()){
+            string += " "+ j;       //se o vertice j possuir arestas para todos, ele e adicionado na string como parte da solucao do cique
+        }
+
+        i = 0;
+    }
+
+    cout << " vertices envolvidos na clique: " << string << endl; //exibimos a string que contem todos os vertices contidos na solucao
+
+}
