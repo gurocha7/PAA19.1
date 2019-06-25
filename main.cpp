@@ -7,7 +7,6 @@ using namespace std;
 int main()
 {
   Grafo grafo("teste.txt");
-
   grafo.imprimeGrafo();
 
   cout << endl;

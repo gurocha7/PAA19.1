@@ -7,8 +7,10 @@ using namespace std;
 class Grafo{
     int vertices;
     int **arestas;
+    int *nAdjacencias;
 
     int* auxConjuntoIndependente(int*,int);
+
 
 public:
 
@@ -25,8 +27,6 @@ void satisfabilidade(){}        //AQUI RESOLVERA O PROBLEMA DE SATISFABILIDADE E
 int* listaDeAdjacencia(int);    //AQUI RETORNARÁ A LISTA DE ADJACENCIA DE UM VERTICE SELECIONADO
 
 };
-
-
 
 
 #endif
