@@ -85,10 +85,6 @@ int* Grafo::conjuntoIndependete(){
         conjunto = auxConjuntoIndependente(conjunto,i);             
     }
 
-    for(int i=0; i< vertices; i++)
-        cout << conjunto[i] << "\t";
-    cout << endl;
-
     return conjunto;
 }
 
@@ -101,4 +97,26 @@ int* Grafo::auxConjuntoIndependente(int* conjunto,int vertice){
     }
     conjunto[vertice] = 1;                             // este vertice passa a fazer parte do conjunto independente
     return conjunto;
+}
+
+void Grafo::complemento(){
+    for (int i = 0; i < vertices; i++)
+        for (int j = 0; j < vertices; j++){
+            if(arestas[i][j]==1)
+                arestas[i][j]=0;
+            else
+                arestas[i][j]=1;
+        }
+    
+    for(int i=0; i < vertices; i++)
+        nAdjacencias[i] = vertices - nAdjacencias[i];
+}
+
+int* Grafo::clique(){
+    complemento();
+
+    int* clique = conjuntoIndependete();
+
+    complemento();
+    return clique;
 }
