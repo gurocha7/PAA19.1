@@ -9,8 +9,10 @@ class Grafo{
     int **arestas;
     int *nAdjacencias;
 
-    int* auxConjuntoIndependente(int*,int);
+    int* auxConjuntoIndependente(int*,int, int*, int);
     void complemento();
+    bool eConsistente(int*);
+    bool ePromissor(int*, int);
 
 public:
 

@@ -9,7 +9,6 @@ int main()
   Grafo grafo("teste.txt");
 
   int* conjuntoIndependente = grafo.conjuntoIndependete();
-
   cout << "Conjunto Independete" << endl;
 
   for (int i = 0; i < 9; i++){
@@ -26,8 +25,6 @@ int main()
     cout<< clique[i] << " ";
   }
 
-
-  
   delete &grafo;
 
   return 0;
