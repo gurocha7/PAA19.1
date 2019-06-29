@@ -11,6 +11,7 @@ Grafo::Grafo(string nomeDoArquivo){
     else{
         vertices=0;
         arestas = nullptr;
+        nAdjacencias = nullptr;
     }
 }
 
@@ -18,6 +19,8 @@ Grafo::~Grafo(){
     for(int i=0; i< vertices-1; i++)
         delete [] arestas[i];
     delete [] arestas;
+
+    delete [] nAdjacencias;
 }
 
 void Grafo::leGrafo(string nomeDoArquivo){
@@ -34,8 +37,6 @@ void Grafo::leGrafo(string nomeDoArquivo){
 
 
     int contador=0;           // controlará o percurso na matriz
-    char lixo;              // receberá os espaços vazios do arquivo
-
 
     while(!arquivo.fail()){                                             // le a matriz de adjacencia
         arquivo >> arestas[contador/vertices][contador%vertices];      // le o inteiro
@@ -43,6 +44,20 @@ void Grafo::leGrafo(string nomeDoArquivo){
     }
 
         arquivo.close();
+    }
+
+    nAdjacencias = new int [vertices];
+    for(int i=0; i< vertices; i++ ) nAdjacencias[i] = 0;
+
+    int cont;
+    for(int i=0; i< vertices; i++ ){
+        int* adjacencias = listaDeAdjacencia(i);        // recebe a lista de adjacencias do vertice
+        cont =0;
+        for(int j=0; j< vertices; j++){
+            if (adjacencias[i] == 1)                          // conta o numero de vizinhos do vertice
+                cont ++;
+        }
+        nAdjacencias[i]=cont;
     }
 }
 
@@ -66,38 +81,86 @@ int* Grafo::conjuntoIndependete(){
     int* conjunto = new int[vertices];
     for (int i = 0; i < vertices; i++) conjunto[i]=0;     // assume valores iniciais igual a 0 para indicar que nenhum valor pertence ao conjunto independente;
     
-
+    int melhor = 0;
     for(int i=0; i < vertices; i++){
-        conjunto = auxConjuntoIndependente(conjunto,i);             
+        int* proposta = new int[vertices];
+        for (int i = 0; i < vertices; i++) proposta[i]=0;
+        proposta[i]=1;
+        conjunto = auxConjuntoIndependente(conjunto,melhor,proposta,i);
+        melhor=0;
+        for(int j=0; j < vertices; j++) 
+            if(conjunto[j]==1)
+                melhor+=1;
     }
-    for(int i=0; i< vertices; i++)
-        cout << conjunto[i] << "\t";
-    cout << endl;
 
     return conjunto;
 }
 
-int* Grafo::auxConjuntoIndependente(int* conjunto,int vertice){
-    int* adjacencias = listaDeAdjacencia(vertice);        // recebe a lista de adjacencias do vertice
-
-    int cont = 0;                                         // vai contar o numero de vizinhos que fazem parte do conjunto independente    
-    for (int i = 0; i < vertices; i++) 
-        if (adjacencias[i] == 1)                          // conta o numero de vizinhos do vertice
-            cont ++;
-    
-
-    for (int i = 0; i < vertices; i++){                   // percorre a lista de adjacencia
-        if(adjacencias[i] == 1 && i != vertice)           // se for 1 e se não for ele mesmo, continua
-            if(conjunto[i] != 1){                         // se não fizer parte do conjunto independente, diminui o contador
-                cont--;
+int* Grafo::auxConjuntoIndependente(int* melhorConjunto, int melhorTamanho, int* proposta, int vertice){
+    int *adjacencias=listaDeAdjacencia(vertice);                                                        // recupera todas as adjacencias do vertice
+    for(int i=0; i < vertices; i++){                                                                    // para todo vizinho do vertice
+        if(proposta[i]!=1){
+            proposta[i]=1;                                                                              // inclui na proposta
+            if(eConsistente(proposta)){                                                                 // verifica se é consistente 
+                proposta = auxConjuntoIndependente(melhorConjunto, melhorTamanho, proposta, i);         // se for, continua procurando mais valores
+            }                                                                 
+            else{
+                proposta[i] = 0;                                                                        // se não for, zera o valor e     
             }   
+        }                                                                         
+
+        if(ePromissor(proposta,melhorTamanho)){                                                         // ao final das propostas, se ela for promissora
+            melhorConjunto = proposta;                                                                  // assume como melhor conjunto
+            melhorTamanho=0;
+            for(int contador = 0; contador < vertice; contador ++)                                      // e conta seu tamanho
+                if(melhorConjunto[contador] == 1)
+                    melhorTamanho+=1;                                                                                
+        }
     }
-    if (cont == 0)/** 
-                    * se for igual a zero ele contou o numero de vizinhos e os mesmos não fazem parte do conjunto independente, 
-                    * logo, todos os vizinhos não fazem parte do conjunto independete 
-                    */ 
-        conjunto[vertice] = 1;                             // este vertice passa a fazer parte do conjunto independente
-    
-    return conjunto;
+
+    return melhorConjunto;                                                                              // retorna o melhor conjunto
 }
 
+void Grafo::complemento(){
+    for (int i = 0; i < vertices; i++)
+        for (int j = 0; j < vertices; j++){
+            if(arestas[i][j]==1)
+                arestas[i][j]=0;
+            else if( i!=j )
+                arestas[i][j]=1;
+        }
+    
+    for(int i=0; i < vertices; i++)
+        nAdjacencias[i] = vertices - nAdjacencias[i];
+}
+
+int* Grafo::clique(){
+    complemento();
+    int* clique = conjuntoIndependete();
+    complemento();
+    return clique;
+}
+
+bool Grafo::eConsistente(int* solucao){
+    for(int i=0; i < vertices; i++){
+        if (solucao[i]==1){
+            int* vizinhos=listaDeAdjacencia(i);
+            for(int j=0; j < vertices; j++)
+                if (vizinhos[j]==1 && solucao[j] == 1 )
+                    return false;
+        }   
+    }
+    return true;
+}
+
+bool Grafo::ePromissor(int* solucao, int melhor){
+    int contador=0;
+    for(int i=0; i < vertices; i++)
+        if(solucao[i] == 1)
+            contador++;
+    return contador > melhor;
+}
+
+int Grafo::getVertices(){
+    return vertices;
+}
