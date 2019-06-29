@@ -160,3 +160,7 @@ bool Grafo::ePromissor(int* solucao, int melhor){
             contador++;
     return contador > melhor;
 }
+
+int Grafo::getVertices(){
+    return vertices;
+}

@@ -11,7 +11,7 @@ int main()
   int* conjuntoIndependente = grafo.conjuntoIndependete();
   cout << "Conjunto Independete" << endl;
 
-  for (int i = 0; i < 9; i++){
+  for (int i = 0; i < grafo.getVertices(); i++){
     cout << conjuntoIndependente[i] << " ";
   }
 
@@ -21,8 +21,8 @@ int main()
 
 
   cout << endl << "Clique" << endl;
-  for(int i=0; i<9; i++){
-    cout<< clique[i] << " ";
+  for (int i = 0; i < grafo.getVertices(); i++){
+    cout << clique[i] << " ";
   }
 
   delete &grafo;
