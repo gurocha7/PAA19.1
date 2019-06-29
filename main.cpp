@@ -18,12 +18,17 @@ int main()
   cout << endl;
 
   int* clique = grafo.clique();
-
-
   cout << endl << "Clique" << endl;
+
   for (int i = 0; i < grafo.getVertices(); i++){
     cout << clique[i] << " ";
   }
+
+  cout << endl;
+
+  cout << endl << "Satisfabilidade" << endl;
+  grafo.leSat("testeSat.txt");
+  grafo.imprimeSat();
 
   delete &grafo;
 

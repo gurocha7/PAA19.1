@@ -164,3 +164,62 @@ bool Grafo::ePromissor(int* solucao, int melhor){
 int Grafo::getVertices(){
     return vertices;
 }
+
+void Grafo::leSat(string nomeDoArquivo)
+{
+    string fimLinha;
+
+    ifstream arquivo(nomeDoArquivo);
+
+    if(arquivo.is_open() && arquivo.good()){
+
+        contadorLinha = 0;
+
+        while(getline(arquivo, fimLinha)){      // percorre todo o arquivo para pegar o numero total de linhas
+            contadorLinha++;
+        }
+
+        arquivo.clear();                        // volta para o inicio do arquivo
+        arquivo.seekg(0, ios::beg);
+
+        arquivo >> vertices;
+    
+        arestas = new int*[contadorLinha-2];      // alocando memória para as linhas
+        for(int i=0; i < contadorLinha-1; i++)
+            arestas[i] = new int[vertices];       // alocando memória para as colunas
+
+        for(int j=0; j < contadorLinha-1; j++)   // preenche a matriz com zeros
+            for(int k=0; k < vertices; k++)
+                arestas[j][k] = 0;
+        
+        contadorLinha = 0;
+        contadorColuna = 0;
+
+        while(!arquivo.eof()){            
+            arquivo >> arestas[contadorLinha][contadorColuna];
+            contadorColuna++;
+
+            if(contadorColuna == vertices){
+                contadorLinha++;
+                contadorColuna = 0;
+            }
+        }
+        arquivo.close();
+    }
+}
+
+void Grafo::imprimeSat()
+{
+    cout << vertices << endl;
+    for(int i = 0; i < contadorLinha; i++){
+        for(int j = 0; j < vertices; j++)
+            cout << arestas[i][j] << " ";
+    
+        cout << endl;
+    }
+}
+
+void Grafo::satisfabilidade()
+{
+
+}
