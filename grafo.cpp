@@ -164,3 +164,103 @@ bool Grafo::ePromissor(int* solucao, int melhor){
 int Grafo::getVertices(){
     return vertices;
 }
+
+void Grafo::leSat(string nomeDoArquivo)
+{
+    string fimLinha;
+
+    ifstream arquivo(nomeDoArquivo);
+
+    if(arquivo.is_open() && arquivo.good()){
+
+        contadorLinha = 0;
+
+        while(getline(arquivo, fimLinha)){      // percorre todo o arquivo para pegar o numero total de linhas
+            contadorLinha++;
+        }
+
+        arquivo.clear();                        // volta para o inicio do arquivo
+        arquivo.seekg(0, ios::beg);
+
+        arquivo >> vertices;
+    
+        arestas = new int*[contadorLinha-2];      // alocando memória para as linhas
+        for(int i=0; i < contadorLinha-1; i++)
+            arestas[i] = new int[vertices];       // alocando memória para as colunas
+
+        for(int j=0; j < contadorLinha-1; j++)   // preenche a matriz com zeros
+            for(int k=0; k < vertices; k++)
+                arestas[j][k] = 0;
+        
+        contadorLinha = 0;
+        contadorColuna = 0;
+
+        while(!arquivo.eof()){            
+            arquivo >> arestas[contadorLinha][contadorColuna];
+            contadorColuna++;
+
+            if(contadorColuna == vertices){
+                contadorLinha++;
+                contadorColuna = 0;
+            }
+        }
+        arquivo.close();
+    }
+}
+
+void Grafo::imprimeSat()
+{
+    cout << vertices << endl;
+    for(int i = 0; i < contadorLinha; i++){
+        for(int j = 0; j < vertices; j++)
+            cout << arestas[i][j] << " ";
+    
+        cout << endl;
+    }
+}
+
+void Grafo::satisfabilidade()
+{
+    int tamanho = 0;
+    int contador = 0, aux = 0;
+    int i = 0, j = 0, k = 0, m = 0;
+
+    for(i = 0; i < contadorLinha; i++){     // Pega o total de variaveis diferentes de 2
+        for(j = 0; j < vertices; j++)
+            if(arestas[i][j] != 2)
+                tamanho++;
+    }
+
+    matrizSat = new int*[tamanho];          // Cria uma matriz de tamanho = tamanho * tamanho
+    for(i=0; i < tamanho; i++)
+        matrizSat[i] = new int[tamanho];   
+
+    for(i = 0; i < tamanho; i++)            // Preenche a matriz criada com zeros
+        for(j = 0; j < tamanho; j++)
+            matrizSat[i][j] = 0;
+
+    for(i = 0; i < contadorLinha; i++){     // Percorre a matriz de entrada do SAT
+        for(j = 0; j < vertices; j++){          
+            if(arestas[i][j] != 2)          // Conta todos os valores da matriz diferentes de 2    
+                contador++;                 
+            
+            for(k = 0; k < contador; k++)          
+                for(m = 0; m < contador; m++){
+                    if(k == m)
+                        matrizSat[k][m] = 0;   // Se for diagonal principal o valor atribuido é zero   
+
+                    else
+                        matrizSat[k+aux][m+aux] = 1;    // Se não atribui valor 1 (ligação de variaveis da mesma clausula)
+                }
+        }
+        aux += contador;
+        contador = 0;
+    }
+
+
+    for(i = 0; i < tamanho; i++){      
+        for(j = 0; j < tamanho; j++)
+            cout << matrizSat[i][j] << " ";
+        cout << endl;
+    }
+}
