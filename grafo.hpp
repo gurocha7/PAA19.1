@@ -10,6 +10,7 @@ class Grafo{
     int *nAdjacencias;
     
     int contadorLinha, contadorColuna;
+    int **matrizSat;
 
     int* auxConjuntoIndependente(int*,int, int*, int);
     void complemento();
