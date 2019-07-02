@@ -28,11 +28,8 @@ int main()
 
   cout << endl << "Satisfabilidade" << endl;
   grafo.leSat("testeSat.txt");
-  grafo.imprimeSat();
-  grafo.buildMatrizAux();
   grafo.satisfabilidade();
-  grafo.readClause();
-  
+  grafo.imprimeSat();
 
   delete &grafo;
 

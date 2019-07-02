@@ -188,9 +188,9 @@ void Grafo::leSat(string nomeDoArquivo)
 
         arquivo >> vertices;
     
-        arestas = new int*[contadorLinha-2];      // alocando memória para as linhas
+        matrizSat = new int*[contadorLinha-2];      // alocando memória para as linhas
         for(int i=0; i < contadorLinha-1; i++)
-            arestas[i] = new int[vertices];       // alocando memória para as colunas
+            matrizSat[i] = new int[vertices];       // alocando memória para as colunas
 
         matrizAux = new int*[contadorLinha-2];
         for (int i = 0; i < contadorLinha-1; i++)
@@ -201,7 +201,7 @@ void Grafo::leSat(string nomeDoArquivo)
 
         for(int j=0; j < contadorLinha-1; j++)   // preenche a matriz com zeros
             for(int k=0; k < vertices; k++)
-                arestas[j][k] = 0;
+                matrizSat[j][k] = 0;
         
         contadorLinha = 0;
         contadorColuna = 0;
@@ -209,7 +209,7 @@ void Grafo::leSat(string nomeDoArquivo)
         int qtd = 0;
 
         while(!arquivo.eof()){            
-            arquivo >> arestas[contadorLinha][contadorColuna];
+            arquivo >> matrizSat[contadorLinha][contadorColuna];
 
             contadorColuna++;
 
@@ -226,65 +226,56 @@ void Grafo::leSat(string nomeDoArquivo)
 void Grafo::imprimeSat()
 {
     cout << vertices << endl;
-    for(int i = 0; i < contadorLinha; i++){
-        for(int j = 0; j < vertices; j++)
+    for(int i = 0; i < tamanho; i++){
+        for(int j = 0; j < tamanho; j++)
             cout << arestas[i][j] << " ";
     
         cout << endl;
     }
 }
 
-void Grafo::satisfabilidade()
+int* Grafo::satisfabilidade()
 {
+    // Faz as ligações das variáveis(vértices) pertencentes a mesma clausula 
     tamanho = 0;
     int contador = 0, aux = 0;
     int i = 0, j = 0, k = 0, m = 0;
 
     for(i = 0; i < contadorLinha; i++){     // Pega o total de variaveis diferentes de 2
         for(j = 0; j < vertices; j++)
-            if(arestas[i][j] != 2)
+            if(matrizSat[i][j] != 2)
                 tamanho++;
     }
 
-    matrizSat = new int*[tamanho];          // Cria uma matriz de tamanho = tamanho * tamanho
+    arestas = new int*[tamanho];          // Cria uma matriz de tamanho = tamanho * tamanho
     for(i=0; i < tamanho; i++)
-        matrizSat[i] = new int[tamanho];   
+        arestas[i] = new int[tamanho];   
 
     for(i = 0; i < tamanho; i++)            // Preenche a matriz criada com zeros
         for(j = 0; j < tamanho; j++)
-            matrizSat[i][j] = 0;
+            arestas[i][j] = 0;
 
     for(i = 0; i < contadorLinha; i++){     // Percorre a matriz de entrada do SAT
         for(j = 0; j < vertices; j++){          
-            if(arestas[i][j] != 2)          // Conta todos os valores da matriz diferentes de 2 na mesma linha 
+            if(matrizSat[i][j] != 2)          // Conta todos os valores da matriz diferentes de 2 na mesma linha 
                 contador++;                 
             
             for(k = 0; k < contador; k++)          
                 for(m = 0; m < contador; m++){
                     if(k != m)
-                        matrizSat[k+aux][m+aux] = 1;    // Se não atribui valor 1 (ligação de variaveis da mesma clausula)
+                        arestas[k+aux][m+aux] = 1;    // Se não atribui valor 1 (ligação de variaveis da mesma clausula)
                 }
         }
         aux += contador;
         contador = 0;
     }
 
-
-    for(i = 0; i < tamanho; i++){      
-        for(j = 0; j < tamanho; j++)
-            cout << matrizSat[i][j] << " ";
-        cout << endl;
-    }
-}
-
-
-void Grafo::buildMatrizAux(){
-
+    // Preenche matriz auxiliar
     int qtd = 0;
 
     for(int i = 0; i < contadorLinha; i++){
         for(int j = 0; j < vertices; j++){
-            if (arestas[i][j] == 2)
+            if (matrizSat[i][j] == 2)
             {
                 matrizAux[i][j] = -1;
             }else{
@@ -292,44 +283,32 @@ void Grafo::buildMatrizAux(){
                 qtd++;
             }
         }
-        cout << endl;
     }
-}
 
-void Grafo::readClause(){
-    int j = 0;
-    int aux = 1;
+    // Faz as ligações da mesma variavél(vértice) negada e não negada
+    i = 0;
+    j = 0;
+    aux = 1;
     int numCol = 1;
-    int i = 0;
     int qtdEntrou = 0;
-
-    cout << "Verticesss = " << vertices << endl;
-    cout << "contadorLinha = " << contadorLinha << endl;
 
     while (numCol != vertices+1)
     {
         while (i != contadorLinha-1)
         {
-            if (arestas[i][numCol-1] != 2 ){
-                if (arestas[aux][numCol-1] != 2)
+            if (matrizSat[i][numCol-1] != 2 ){
+                if (matrizSat[aux][numCol-1] != 2)
                 {
-                    if (arestas[aux][numCol-1] != arestas[i][numCol-1] )
+                    if (matrizSat[aux][numCol-1] != matrizSat[i][numCol-1] )
                     {
                         //ligacao no grafo grande
-
-
                         int numeroColuna = matrizAux[i][numCol-1];
                         int numeroLinha =  matrizAux[aux][numCol-1];
 
-                        cout << numeroColuna << ":";
-                        cout << numeroLinha << endl;
-
-                        matrizSat[numeroColuna][numeroLinha] = 1;
-                        matrizSat[numeroLinha][numeroColuna] = 1;
+                        arestas[numeroColuna][numeroLinha] = 1;
+                        arestas[numeroLinha][numeroColuna] = 1;
 
                         qtdEntrou++;
-
-
                     }   
                 }   
             }
@@ -346,10 +325,6 @@ void Grafo::readClause(){
         aux=1; 
         numCol++;
     }
-    
-    for(i = 0; i < tamanho; i++){      
-        for(j = 0; j < tamanho; j++)
-            cout << matrizSat[i][j] << " ";
-    cout << endl;
-    }
-} 
+
+    return arestas;
+}
