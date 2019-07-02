@@ -294,20 +294,7 @@ void Grafo::buildMatrizAux(){
         }
         cout << endl;
     }
-
-
-
-    cout << vertices << endl;
-    for(int i = 0; i < contadorLinha; i++){
-        for(int j = 0; j < vertices; j++)
-            cout << matrizAux[i][j] << " ";
-    
-        cout << endl;
-    }
-
 }
-
-
 
 void Grafo::readClause(){
     int j = 0;
@@ -329,8 +316,16 @@ void Grafo::readClause(){
                     if (arestas[aux][numCol-1] != arestas[i][numCol-1] )
                     {
                         //ligacao no grafo grande
-                        cout << matrizAux[i][numCol-1] << " ";
-                        cout << matrizAux[aux][numCol-1] << ":";
+
+
+                        int numeroColuna = matrizAux[i][numCol-1];
+                        int numeroLinha =  matrizAux[aux][numCol-1];
+
+                        cout << numeroColuna << ":";
+                        cout << numeroLinha << endl;
+
+                        matrizSat[numeroColuna][numeroLinha] = 1;
+                        matrizSat[numeroLinha][numeroColuna] = 1;
 
                         qtdEntrou++;
 
@@ -350,9 +345,11 @@ void Grafo::readClause(){
         j++;
         aux=1; 
         numCol++;
-        cout << "coluna atual = " << numCol << endl;
     }
     
-   cout << "ligacoes = " << qtdEntrou << endl;
-
+    for(i = 0; i < tamanho; i++){      
+        for(j = 0; j < tamanho; j++)
+            cout << matrizSat[i][j] << " ";
+    cout << endl;
+    }
 } 
