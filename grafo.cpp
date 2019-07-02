@@ -20,6 +20,10 @@ Grafo::~Grafo(){
         delete [] arestas[i];
     delete [] arestas;
 
+    for(int j=0; j < tamanho-1; j++)
+        delete [] matrizSat[j];
+    delete[] matrizSat;
+
     delete [] nAdjacencias;
 }
 
@@ -188,6 +192,13 @@ void Grafo::leSat(string nomeDoArquivo)
         for(int i=0; i < contadorLinha-1; i++)
             arestas[i] = new int[vertices];       // alocando memória para as colunas
 
+        matrizAux = new int*[contadorLinha-2];
+        for (int i = 0; i < contadorLinha-1; i++)
+        {
+            matrizAux[i] = new int[vertices];
+        }
+        
+
         for(int j=0; j < contadorLinha-1; j++)   // preenche a matriz com zeros
             for(int k=0; k < vertices; k++)
                 arestas[j][k] = 0;
@@ -195,14 +206,18 @@ void Grafo::leSat(string nomeDoArquivo)
         contadorLinha = 0;
         contadorColuna = 0;
 
+        int qtd = 0;
+
         while(!arquivo.eof()){            
             arquivo >> arestas[contadorLinha][contadorColuna];
+
             contadorColuna++;
 
             if(contadorColuna == vertices){
                 contadorLinha++;
                 contadorColuna = 0;
             }
+            
         }
         arquivo.close();
     }
@@ -221,7 +236,7 @@ void Grafo::imprimeSat()
 
 void Grafo::satisfabilidade()
 {
-    int tamanho = 0;
+    tamanho = 0;
     int contador = 0, aux = 0;
     int i = 0, j = 0, k = 0, m = 0;
 
@@ -241,15 +256,12 @@ void Grafo::satisfabilidade()
 
     for(i = 0; i < contadorLinha; i++){     // Percorre a matriz de entrada do SAT
         for(j = 0; j < vertices; j++){          
-            if(arestas[i][j] != 2)          // Conta todos os valores da matriz diferentes de 2    
+            if(arestas[i][j] != 2)          // Conta todos os valores da matriz diferentes de 2 na mesma linha 
                 contador++;                 
             
             for(k = 0; k < contador; k++)          
                 for(m = 0; m < contador; m++){
-                    if(k == m)
-                        matrizSat[k][m] = 0;   // Se for diagonal principal o valor atribuido é zero   
-
-                    else
+                    if(k != m)
                         matrizSat[k+aux][m+aux] = 1;    // Se não atribui valor 1 (ligação de variaveis da mesma clausula)
                 }
         }
@@ -264,3 +276,83 @@ void Grafo::satisfabilidade()
         cout << endl;
     }
 }
+
+
+void Grafo::buildMatrizAux(){
+
+    int qtd = 0;
+
+    for(int i = 0; i < contadorLinha; i++){
+        for(int j = 0; j < vertices; j++){
+            if (arestas[i][j] == 2)
+            {
+                matrizAux[i][j] = -1;
+            }else{
+                matrizAux[i][j] = qtd;
+                qtd++;
+            }
+        }
+        cout << endl;
+    }
+
+
+
+    cout << vertices << endl;
+    for(int i = 0; i < contadorLinha; i++){
+        for(int j = 0; j < vertices; j++)
+            cout << matrizAux[i][j] << " ";
+    
+        cout << endl;
+    }
+
+}
+
+
+
+void Grafo::readClause(){
+    int j = 0;
+    int aux = 1;
+    int numCol = 1;
+    int i = 0;
+    int qtdEntrou = 0;
+
+    cout << "Verticesss = " << vertices << endl;
+    cout << "contadorLinha = " << contadorLinha << endl;
+
+    while (numCol != vertices+1)
+    {
+        while (i != contadorLinha-1)
+        {
+            if (arestas[i][numCol-1] != 2 ){
+                if (arestas[aux][numCol-1] != 2)
+                {
+                    if (arestas[aux][numCol-1] != arestas[i][numCol-1] )
+                    {
+                        //ligacao no grafo grande
+                        cout << matrizAux[i][numCol-1] << " ";
+                        cout << matrizAux[aux][numCol-1] << ":";
+
+                        qtdEntrou++;
+
+
+                    }   
+                }   
+            }
+            
+            aux++;
+
+            if (aux == contadorLinha ){
+                i++;
+                aux = i+1;
+            }                        
+        }   
+        i=0;
+        j++;
+        aux=1; 
+        numCol++;
+        cout << "coluna atual = " << numCol << endl;
+    }
+    
+   cout << "ligacoes = " << qtdEntrou << endl;
+
+} 
