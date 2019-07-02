@@ -26,9 +26,9 @@ int main()
  */
   cout << endl;
 
-  cout << endl << "Satisfabilidade" << endl;
   grafo.leSat("testeSat.txt");
-  grafo.satisfabilidade();
+  int * satisfabilidade = grafo.satisfabilidade();
+  cout << endl << "Satisfabilidade" << endl;
   grafo.imprimeSat();
 
   delete &grafo;

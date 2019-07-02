@@ -17,7 +17,6 @@ class Grafo{
     void complemento();
     bool eConsistente(int*);
     bool ePromissor(int*, int);
-    int* satisfabilidade();        //AQUI RESOLVERA O PROBLEMA DE SATISFABILIDADE
     int* listaDeAdjacencia(int);    //AQUI RETORNARÁ A LISTA DE ADJACENCIA DE UM VERTICE SELECIONADO
 
 public:
@@ -32,6 +31,7 @@ void imprimeSat();         //AQUI IMPRIMIRÁ EXATAMENTE COMO ESTÁ NO ARQUIVO DE
 
 int* clique();                 //AQUI RESOLVERÁ O PROBLEMA DE CLIQUE E IMPRIMIRÁ O RESULTADO   *** DEVERÁ TIRAR AS CHAVES APÓS A IMPLEMENTAÇÃO NO CPP ***
 int* conjuntoIndependete();    //AQUI RESOLVERÁ O PROBLEMA DE CONJUNTO INDEPENDENTE E IMPRIMIRÁ O RESULTADO *** DEVERÁ TIRAR AS CHAVES APÓS A IMPLEMENTAÇÃO NO CPP ***
+int* satisfabilidade();        //AQUI RESOLVERA O PROBLEMA DE SATISFABILIDADE
 int getVertices();
 };
 

@@ -326,5 +326,5 @@ int* Grafo::satisfabilidade()
         numCol++;
     }
 
-    return arestas;
+    return *arestas;
 }
