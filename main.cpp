@@ -8,7 +8,7 @@ int main()
 {
   Grafo grafo("teste.txt");
 
-/*   int* conjuntoIndependente = grafo.conjuntoIndependete();
+  int* conjuntoIndependente = grafo.conjuntoIndependete();
   cout << "Conjunto Independete" << endl;
 
   for (int i = 0; i < grafo.getVertices(); i++){
@@ -23,13 +23,12 @@ int main()
   for (int i = 0; i < grafo.getVertices(); i++){
     cout << clique[i] << " ";
   }
- */
+
   cout << endl;
 
-  grafo.leSat("testeSat.txt");
-  int * satisfabilidade = grafo.satisfabilidade();
+  grafo.leSat("testeSat2.txt");
   cout << endl << "Satisfabilidade" << endl;
-  grafo.imprimeSat();
+  int * satisfabilidade = grafo.satisfabilidade();
 
   delete &grafo;
 
