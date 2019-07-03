@@ -75,7 +75,6 @@ int main()
   Grafo grafoSat2;
   Grafo grafoSat3;
 
-
   cout << endl << "Satisfabilidade do Teste 1" << endl;
   Ticks[0] = clock();
   grafoSat1.leSat("testeSat.txt");
@@ -90,7 +89,7 @@ int main()
   cout << endl << "Satisfabilidade do Teste 2" << endl;
   Ticks[0] = clock();
   grafoSat2.leSat("testeSat2.txt");
-  satisfabilidade = grafo2.satisfabilidade();
+  satisfabilidade = grafoSat2.satisfabilidade();
   for (int i = 0; i < grafoSat2.getTamanho(); i++){
     cout << satisfabilidade[i] << " ";
   }cout << endl;
