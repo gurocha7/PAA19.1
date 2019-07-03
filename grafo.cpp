@@ -142,6 +142,10 @@ int* Grafo::clique(){
     complemento();
     int* clique = conjuntoIndependete();
     complemento();
+    
+    if(!eClique(clique))
+        for(int i=0; i< vertices; i++)  clique[i]=0;
+
     return clique;
 }
 
@@ -351,4 +355,16 @@ int* Grafo::satisfabilidade()
     cout << "solucao que satisfaca!" << endl;
     vertices = ponte;
     return conjuntoIndependete;
+}
+
+bool Grafo::eClique(int* solucao){
+    for(int i=0; i<vertices; i++){
+        if(solucao[i]==1){
+            int* adjacencais=listaDeAdjacencia(i);
+            for(int j=0; j < vertices; j++)
+                if(i != j && solucao[j] != adjacencais[j])
+                    return false;
+        }
+    }
+    return true;
 }

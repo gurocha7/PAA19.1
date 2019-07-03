@@ -18,6 +18,7 @@ class Grafo{
     bool eConsistente(int*);
     bool ePromissor(int*, int);
     int* listaDeAdjacencia(int);    //AQUI RETORNARÁ A LISTA DE ADJACENCIA DE UM VERTICE SELECIONADO
+    bool eClique(int*);
 
 public:
 
