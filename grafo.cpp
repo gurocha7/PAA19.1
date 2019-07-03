@@ -210,8 +210,6 @@ void Grafo::leSat(string nomeDoArquivo)
         contadorLinha = 0;
         contadorColuna = 0;
 
-        int qtd = 0;
-
         while(!arquivo.eof()){            
             arquivo >> matrizSat[contadorLinha][contadorColuna];
 
@@ -294,7 +292,6 @@ int* Grafo::satisfabilidade()
     j = 0;
     aux = 1;
     int numCol = 1;
-    int qtdEntrou = 0;
 
     while (numCol != vertices+1)
     {
@@ -311,8 +308,6 @@ int* Grafo::satisfabilidade()
 
                         arestas[numeroColuna][numeroLinha] = 1;
                         arestas[numeroLinha][numeroColuna] = 1;
-
-                        qtdEntrou++;
                     }   
                 }   
             }
@@ -340,8 +335,6 @@ int* Grafo::satisfabilidade()
         if(conjuntoIndependete[i]==1)
             j++;
     
-
-    cout << "J= " << j << endl << "contadorLinha= " << contadorLinha << endl ;
     if(j==contadorLinha){
         cout <<"Possui ";
     }
