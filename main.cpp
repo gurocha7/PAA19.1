@@ -47,34 +47,31 @@ int main()
   }
   cout << endl;
 
-  /* 
   Grafo grafoSat1;
   Grafo grafoSat2;
   Grafo grafoSat3;
 
-  grafoSat1.leSat(COLOCAR OS NOMES DOS ARQUIVOS AQUI);
-  grafoSat2.leSat(COLOCAR OS NOMES DOS ARQUIVOS AQUI);
-  grafoSat3.leSat(COLOCAR OS NOMES DOS ARQUIVOS AQUI);
+  cout << endl << "Satisfabilidade do Teste 1" << endl;
+  grafoSat1.leSat("testeSat.txt");
+  int* satisfabilidade = grafoSat1.satisfabilidade();
+  for (int i = 0; i < grafoSat1.getTamanho(); i++){
+    cout << satisfabilidade[i] << " ";
+  }
+  cout << endl;
+  cout << endl << "Satisfabilidade do Teste 2" << endl;
+  grafoSat2.leSat("testeSat2.txt");
+  satisfabilidade = grafo2.satisfabilidade();
+  for (int i = 0; i < grafoSat2.getTamanho(); i++){
+    cout << satisfabilidade[i] << " ";
+  }
+  cout << endl;
+  cout << endl << "Satisfabilidade do Teste 3" << endl;
+  grafoSat3.leSat("testeSat3.txt");
+  satisfabilidade = grafoSat3.satisfabilidade();
+  for (int i = 0; i < grafoSat3.getTamanho(); i++){
+    cout << satisfabilidade[i] << " ";
+  }
+  cout << endl;
 
-  int* satifabilidade = grafoSat1.satifabilidade();
-  cout << endl << "Satifabilidade do Teste 1" << endl;
-  for (int i = 0; i < grafoSat1.getVertices(); i++){
-    cout << satifabilidade[i] << " ";
-  }
-  cout << endl;
-  satifabilidade = grafo2.satifabilidade();
-  cout << endl << "Satifabilidade do Teste 2" << endl;
-  for (int i = 0; i < grafoSat2.getVertices(); i++){
-    cout << satifabilidade[i] << " ";
-  }
-  cout << endl;
-  satifabilidade = grafoSat3.satifabilidade();
-  cout << endl << "Satifabilidade do Teste 3" << endl;
-  for (int i = 0; i < grafoSat3.getVertices(); i++){
-    cout << satifabilidade[i] << " ";
-  }
-  cout << endl;
-
-  */
   return 0;
 }

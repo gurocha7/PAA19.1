@@ -173,6 +173,10 @@ int Grafo::getVertices(){
     return vertices;
 }
 
+int Grafo::getTamanho(){
+    return tamanho;
+}
+
 void Grafo::leSat(string nomeDoArquivo)
 {
     string fimLinha;

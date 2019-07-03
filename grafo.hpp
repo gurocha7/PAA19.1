@@ -35,6 +35,7 @@ int* clique();                 //AQUI RESOLVERÁ O PROBLEMA DE CLIQUE E IMPRIMIR
 int* conjuntoIndependete();    //AQUI RESOLVERÁ O PROBLEMA DE CONJUNTO INDEPENDENTE E IMPRIMIRÁ O RESULTADO *** DEVERÁ TIRAR AS CHAVES APÓS A IMPLEMENTAÇÃO NO CPP ***
 int* satisfabilidade();        //AQUI RESOLVERA O PROBLEMA DE SATISFABILIDADE
 int getVertices();
+int getTamanho();
 };
 
 
