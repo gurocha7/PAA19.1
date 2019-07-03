@@ -326,5 +326,29 @@ int* Grafo::satisfabilidade()
         numCol++;
     }
 
-    return *arestas;
+    int ponte = vertices;
+    vertices = tamanho;
+
+    int* conjuntoIndependete = this->conjuntoIndependete();
+
+    j=0;
+    for(i=0; i < vertices; i++) 
+        if(conjuntoIndependete[i]==1)
+            j++;
+    
+
+    cout << "J= " << j << endl << "contadorLinha= " << contadorLinha << endl ;
+    if(j==contadorLinha){
+        cout <<"Possui ";
+    }
+    else{
+        cout << "Nao possui ";
+        for ( i = 0; i < vertices; i++)
+        {
+            conjuntoIndependete[i]=0;
+        }
+    }
+    cout << "solucao que satisfaca!" << endl;
+    vertices = ponte;
+    return conjuntoIndependete;
 }
